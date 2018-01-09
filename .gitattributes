@@ -1,0 +1,6 @@
+*.mp3 text !filter !merge !diff
+*.bit text !filter !merge !diff
+*.pcm text !filter !merge !diff
+*.ttf text !filter !merge !diff
+*.MP3 text !filter !merge !diff
+*.wav text !filter !merge !diff
