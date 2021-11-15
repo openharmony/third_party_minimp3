@@ -12,7 +12,7 @@
 
 typedef struct
 {
-    int frame_bytes, frame_offset, channels, hz, layer, bitrate_kbps;
+    int frame_bytes, frame_offset, channels, hz, layer, bitrate_kbps, samples_per_frame;
 } mp3dec_frame_info_t;
 
 typedef struct
@@ -890,13 +890,6 @@ static void L3_midside_stereo(float *left, int n)
             VSTORE(left + i, VADD(vl, vr));
             VSTORE(right + i, VSUB(vl, vr));
         }
-#ifdef __GNUC__
-        /* Workaround for spurious -Waggressive-loop-optimizations warning from gcc.
-         * For more info see: https://github.com/lieff/minimp3/issues/88
-         */
-        if (__builtin_constant_p(n % 4 == 0) && n % 4 == 0)
-            return;
-#endif
     }
 #endif /* HAVE_SIMD */
     for (; i < n; i++)

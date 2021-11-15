@@ -503,8 +503,6 @@ int mp3dec_iterate_buf(const uint8_t *buf, size_t buf_size, MP3D_ITERATE_CB call
         return MP3D_E_PARAM;
     /* skip id3 */
     mp3dec_skip_id3(&buf, &buf_size);
-    if (!buf_size)
-        return 0;
     mp3dec_frame_info_t frame_info;
     memset(&frame_info, 0, sizeof(frame_info));
     do
@@ -523,11 +521,13 @@ int mp3dec_iterate_buf(const uint8_t *buf, size_t buf_size, MP3D_ITERATE_CB call
         frame_info.layer = 4 - HDR_GET_LAYER(hdr);
         frame_info.bitrate_kbps = hdr_bitrate_kbps(hdr);
         frame_info.frame_bytes = frame_size;
+        frame_info.samples_per_frame = hdr_frame_samples(hdr);
 
         if (callback)
         {
-            if ((ret = callback(user_data, hdr, frame_size, free_format_bytes, buf_size, hdr - orig_buf, &frame_info)))
+            if ((ret = callback(user_data, hdr, frame_size, free_format_bytes, buf_size, hdr - orig_buf, &frame_info))){
                 return ret;
+            }
         }
         buf      += frame_size;
         buf_size -= frame_size;
