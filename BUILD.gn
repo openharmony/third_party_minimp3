@@ -13,9 +13,7 @@
 # limitations under the License.
 #
 
-minimp3_sources = [
-    "minimp3.c",
-]
+minimp3_sources = [ "minimp3.c" ]
 
 if (defined(ohos_lite)) {
   import("//build/lite/config/component/lite_component.gni")
@@ -23,9 +21,7 @@ if (defined(ohos_lite)) {
   defines = []
 
   config("minimp3_config") {
-    include_dirs = [
-      "minimp3",
-    ]
+    include_dirs = [ "minimp3" ]
   }
 
   lite_library("minimp3_shared") {
@@ -70,16 +66,14 @@ if (defined(ohos_lite)) {
 } else {
   import("//build/ohos.gni")
   config("minimp3_config") {
-    include_dirs = [
-      "minimp3",
-    ]
+    include_dirs = [ "minimp3" ]
   }
 
   ohos_shared_library("minimp3_shared") {
     public_configs = [ ":minimp3_config" ]
     output_name = "minimp3"
     subsystem_name = "common"
-    part_name = "dsoftbus_standard"
+    part_name = "dsoftbus"
     sources = minimp3_sources
   }
 
